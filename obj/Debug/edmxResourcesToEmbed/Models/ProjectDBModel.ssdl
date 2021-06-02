@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjectDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PhoneNo" Type="int" Nullable="false" />
+    <Property Name="Photo" Type="nvarchar(max)" />
+    <Property Name="UserRole" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AgencyID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AskQuestion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserEmail" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TravelerID" Type="int" Nullable="false" />
+    <Property Name="AgencyID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Post" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PostDate" Type="datetime" Nullable="false" />
+    <Property Name="TripTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TripDetails" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TripDestination" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TripPrice" Type="float" Nullable="false" />
+    <Property Name="TripImage" Type="nvarchar(max)" />
+    <Property Name="AgencyID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Traveler">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PhoneNo" Type="int" Nullable="false" />
+    <Property Name="Photo" Type="nvarchar(max)" />
+    <Property Name="UserRole" Type="varchar" MaxLength="50" />
+    <Property Name="AdminID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TripAgency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PhoneNo" Type="int" Nullable="false" />
+    <Property Name="Photo" Type="nvarchar(max)" />
+    <Property Name="UserRole" Type="varchar" MaxLength="50" />
+    <Property Name="AdminID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Answer__AgencyID__44FF419A">
+    <End Role="TripAgency" Type="Self.TripAgency" Multiplicity="1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="AgencyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Answer__Question__45F365D3">
+    <End Role="AskQuestion" Type="Self.AskQuestion" Multiplicity="1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AskQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AskQuesti__Agenc__4222D4EF">
+    <End Role="TripAgency" Type="Self.TripAgency" Multiplicity="1" />
+    <End Role="AskQuestion" Type="Self.AskQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AskQuestion">
+        <PropertyRef Name="AgencyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AskQuesti__Trave__412EB0B6">
+    <End Role="Traveler" Type="Self.Traveler" Multiplicity="1" />
+    <End Role="AskQuestion" Type="Self.AskQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Traveler">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AskQuestion">
+        <PropertyRef Name="TravelerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Post__AgencyID__31EC6D26">
+    <End Role="TripAgency" Type="Self.TripAgency" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripAgency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="AgencyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Traveler__AdminI__2F10007B">
+    <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+    <End Role="Traveler" Type="Self.Traveler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Traveler">
+        <PropertyRef Name="AdminID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TripAgenc__Admin__2E1BDC42">
+    <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+    <End Role="TripAgency" Type="Self.TripAgency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TripAgency">
+        <PropertyRef Name="AdminID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProjectDBModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AskQuestion" EntityType="Self.AskQuestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Traveler" EntityType="Self.Traveler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TripAgency" EntityType="Self.TripAgency" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Answer__AgencyID__44FF419A" Association="Self.FK__Answer__AgencyID__44FF419A">
+      <End Role="TripAgency" EntitySet="TripAgency" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Answer__Question__45F365D3" Association="Self.FK__Answer__Question__45F365D3">
+      <End Role="AskQuestion" EntitySet="AskQuestion" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AskQuesti__Agenc__4222D4EF" Association="Self.FK__AskQuesti__Agenc__4222D4EF">
+      <End Role="TripAgency" EntitySet="TripAgency" />
+      <End Role="AskQuestion" EntitySet="AskQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AskQuesti__Trave__412EB0B6" Association="Self.FK__AskQuesti__Trave__412EB0B6">
+      <End Role="Traveler" EntitySet="Traveler" />
+      <End Role="AskQuestion" EntitySet="AskQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Post__AgencyID__31EC6D26" Association="Self.FK__Post__AgencyID__31EC6D26">
+      <End Role="TripAgency" EntitySet="TripAgency" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Traveler__AdminI__2F10007B" Association="Self.FK__Traveler__AdminI__2F10007B">
+      <End Role="Admin" EntitySet="Admin" />
+      <End Role="Traveler" EntitySet="Traveler" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TripAgenc__Admin__2E1BDC42" Association="Self.FK__TripAgenc__Admin__2E1BDC42">
+      <End Role="Admin" EntitySet="Admin" />
+      <End Role="TripAgency" EntitySet="TripAgency" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

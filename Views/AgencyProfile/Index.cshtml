@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+    <h3 class="text-primary text-uppercase">Manage</h3>
+    <br />
+    <br />
+    <!-- Standard button -->
+    <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+    <button type="button" class="btn btn-primary btn-lg" onclick="@("window.location.href= '" + Url.Action("index","Posts")+ "'");">Posts</button>
+
+    <br />
+    <br />
+
+</div>
+
